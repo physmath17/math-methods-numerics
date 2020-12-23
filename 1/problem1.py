@@ -15,29 +15,39 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # parameters
-N = int(input("Enter the number of steps : "))
+# N = int(input("Enter the number of steps : "))
 a = 0 #float(input("Enter the intial point : "))
 b = 2*np.pi #float(input("Enter the final point : "))
 y0 = 0 #float(input("Enter the value of function at the initial point : "))
 dy0 = 1 #float(input("Enter the value of the derivative of the function at the initial point : "))
-h = (b - a)/N
-x = np.linspace(a, b, N)
-y = np.array([y0])
+
+def frwrd(xi, xf, yi, dyi, steps) :
+    ''' xi : initial x datapoint, xf : final x datapoint, yi : initial y datapoint, dyi : derivativative initial data, steps : number of iterations,
+    returns 2D array of x, y values '''
+
+    h = (xf - xi)/steps
+    x = np.linspace(xi, xf, steps)
+    y = np.array([yi])
+
+    # using forward derivative implementation of the continuous derivative
+    y1 = (h*dyi + yi)
+    y = np.append(y, y1)
+    for i in range(0, len(x)-2) :
+        dy = 2*y[i + 1] - (1 + h**2)*y[i]
+        y = np.append(y, dy)
+
+    return x, y
+step = [1000, 2000, 5000, 10000]
+for N in step :
+    x, y = frwrd(a, b, y0, dy0, N)
+    plt.scatter(x, y, s=2)
 
 # actual solution
-sin = np.array([np.sin(x[i]) for i in range(len(x))])
+    u = np.linspace(a, b, 1000)
+    sin = np.array([np.sin(u[i]) for i in range(len(u))])
 
-# usinf forward derivative implementation of the continuous derivative
-y1 = (h*dy0 + y0)
-y = np.append(y, y1)
-
-for i in range(0, len(x)-2) :
-    dy = 2*y[i + 1] - (1 + h**2)*y[i]
-    y = np.append(y, dy)
-
-plt.plot(x, sin, color='black')
-plt.scatter(x, y, color='red', s=2)
-plt.title("Solution to y'' = -y, y(0)=0, y'(0)=1 using forward discrete derivative with N = 1000")
+plt.plot(u, sin, color='black')
+plt.title("Solution to y'' = -y, y(0)=0, y'(0)=1 using forward discrete derivative")
 plt.xlabel("x")
-plt.legend(["sin x", "y(x)"])
+plt.legend(["sin x", "y(x) with N = 1000", "y(x) with N = 2000", "y(x) with N = 5000", "y(x) with N = 10000"], loc='upper right')
 plt.show()
