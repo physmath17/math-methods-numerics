@@ -29,7 +29,7 @@ def frwrd(xi, xf, yi, dyi, steps) :
     x = np.linspace(xi, xf, steps)
     y = np.array([yi])
 
-    # using forward derivative implementation of the continuous derivative
+    # using forward difference implementation of the continuous derivative
     y1 = (h*dyi + yi)
     y = np.append(y, y1)
     for i in range(0, len(x)-2) :
@@ -46,7 +46,7 @@ def dscrt(xi, xf, yi, dyi, steps) :
     x = np.linspace(xi, xf, steps)
     y = np.array([yi])
 
-    # using disrete derivative implementation of the continuous derivative
+    # using central difference implementation of the continuous derivative
     y1 = (h*dyi + yi)
     y = np.append(y, y1)
     for i in range(0, len(x)-2) :
