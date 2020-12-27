@@ -23,7 +23,7 @@ dy0 = 1 #float(input("Enter the value of the derivative of the function at the i
 
 def frwrd(xi, xf, yi, dyi, steps) :
     ''' xi : initial x datapoint, xf : final x datapoint, yi : initial y datapoint, dyi : derivativative initial data, steps : number of iterations,
-    returns 2D array of x, y values '''
+    returns two 1D array of x, y values '''
 
     h = (xf - xi)/steps
     x = np.linspace(xi, xf, steps)
@@ -40,7 +40,7 @@ def frwrd(xi, xf, yi, dyi, steps) :
 
 def dscrt(xi, xf, yi, dyi, steps) :
     ''' xi : initial x datapoint, xf : final x datapoint, yi : initial y datapoint, dyi : derivativative initial data, steps : number of iterations,
-    returns 2D array of x, y values '''
+    returns two 1D array of x, y values '''
 
     h = (xf - xi)/steps
     x = np.linspace(xi, xf, steps)
