@@ -9,9 +9,9 @@ startTime = datetime.now()
 # parameters
 a = 0
 bl = -15
-bg = 5
+bg = 6
 Nl = 1500
-Ng = 5000
+Ng = 100000
 xl = np.linspace(a, bl, Nl)
 xg = np.linspace(a, bg, Ng)
 hl = (bl - a)/Nl
