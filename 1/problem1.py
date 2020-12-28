@@ -64,8 +64,8 @@ def dscrt(xi, xf, yi, dyi, steps) :
 #     x, y = dscrt(a, b, y0, dy0, N)
 #     plt.scatter(x, y, s=2)
 
-# x, y = dscrt(a, b, y0, dy0, 500)
-x, y = frwrd(a, b, y0, dy0, 10000)
+x, y = dscrt(a, b, y0, dy0, 1000)
+# x, y = frwrd(a, b, y0, dy0, 10000)
 
 # actual solution
 u = np.linspace(a, b, 1000)
