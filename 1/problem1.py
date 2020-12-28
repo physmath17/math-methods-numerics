@@ -59,21 +59,26 @@ def dscrt(xi, xf, yi, dyi, steps) :
     return x, y
 
 # results
-step = [1000, 2000, 5000, 10000]
-for N in step :
-    x, y = dscrt(a, b, y0, dy0, N)
-    plt.scatter(x, y, s=2)
+# step = [1000, 2000, 5000, 10000]
+# for N in step :
+#     x, y = dscrt(a, b, y0, dy0, N)
+#     plt.scatter(x, y, s=2)
+
+# x, y = dscrt(a, b, y0, dy0, 500)
+x, y = frwrd(a, b, y0, dy0, 10000)
 
 # actual solution
-    u = np.linspace(a, b, 1000)
-    sin = np.array([np.sin(u[i]) for i in range(len(u))])
+u = np.linspace(a, b, 1000)
+sin = np.array([np.sin(u[i]) for i in range(len(u))])
 
 endTime = datetime.now()
 print("Execution time : ", endTime - startTime)
 
 plt.plot(u, sin, color='black')
-# plt.title("Solution to y'' = -y, y(0)=0, y'(0)=1 using forward difference")
-plt.title("Solution to y'' = -y, y(0)=0, y'(0)=1 using central difference")
+plt.plot(x, y, 'b')
+plt.title("Solution to y'' = -y, y(0)=0, y'(0)=1 using forward difference")   
+# plt.title("Solution to y'' = -y, y(0)=0, y'(0)=1 using central difference")   
 plt.xlabel("x")
-plt.legend(["sin x", "y(x) with N = 1000", "y(x) with N = 2000", "y(x) with N = 5000", "y(x) with N = 10000"], loc='upper right')
+# plt.legend(["sin x", "y(x) with N = 1000", "y(x) with N = 2000", "y(x) with N = 5000", "y(x) with N = 10000"], loc='upper right') # for multiple stepsize
+plt.legend(["sin x", "y(x)"], loc='upper right')        # for single stepsize
 plt.show()
