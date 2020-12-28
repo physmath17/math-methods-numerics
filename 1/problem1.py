@@ -61,7 +61,7 @@ def dscrt(xi, xf, yi, dyi, steps) :
 # results
 step = [1000, 2000, 5000, 10000]
 for N in step :
-    x, y = frwrd(a, b, y0, dy0, N)
+    x, y = dscrt(a, b, y0, dy0, N)
     plt.scatter(x, y, s=2)
 
 # actual solution
@@ -72,8 +72,8 @@ endTime = datetime.now()
 print("Execution time : ", endTime - startTime)
 
 plt.plot(u, sin, color='black')
-plt.title("Solution to y'' = -y, y(0)=0, y'(0)=1 using forward difference")
-# plt.title("Solution to y'' = -y, y(0)=0, y'(0)=1 using central difference")
+# plt.title("Solution to y'' = -y, y(0)=0, y'(0)=1 using forward difference")
+plt.title("Solution to y'' = -y, y(0)=0, y'(0)=1 using central difference")
 plt.xlabel("x")
 plt.legend(["sin x", "y(x) with N = 1000", "y(x) with N = 2000", "y(x) with N = 5000", "y(x) with N = 10000"], loc='upper right')
 plt.show()
