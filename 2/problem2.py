@@ -7,6 +7,9 @@ from scipy.special import airy, gamma
 import matplotlib.pyplot as plt
 import numpy as np
 from math import exp
+from datetime import datetime
+
+startTime = datetime.now()
 
 # parameters
 a = 0 
@@ -15,7 +18,7 @@ dy0 = -1/(pow(3, 1/3)*gamma(1/3))
 
 # solving the Airy equation using central difference
 def cntrl(xi, xf, yi, dyi, steps) :
-    ''' solves the Airy equation y''(x) = xy
+    ''' solves the Airy equation y'' = xy
     xi : initial x datapoint, xf : final x datapoint, yi : initial y datapoint, dyi : derivativative initial data, steps : number of iterations,
     returns two 1D array of x, y values '''
 
@@ -27,14 +30,14 @@ def cntrl(xi, xf, yi, dyi, steps) :
     y1 = (h*dyi + yi)
     y = np.append(y, y1)
     for i in range(0, len(x)-2) :
-        dy = (2 + x[i]*h**2)*y[i + 1] - y[i]
+        dy = (2 + x[i + 1]*h**2)*y[i + 1] - y[i]
         y = np.append(y, dy)
 
     return x, y
 
 # solving the Airy equation using forward difference
 def frwrd(xi, xf, yi, dyi, steps) :
-    ''' solves the Airy equation y''(x) = xy
+    ''' solves the Airy equation y'' = xy
     xi : initial x datapoint, xf : final x datapoint, yi : initial y datapoint, dyi : derivativative initial data, steps : number of iterations,
     returns two 1D array of x, y values '''
 
@@ -51,7 +54,7 @@ def frwrd(xi, xf, yi, dyi, steps) :
 
     return x, y
 
-xg, yg = cntrl(a, 10, y0, dy0, 1000)       # x range greater than 0
+xg, yg = cntrl(a, 5, y0, dy0, 5000)      # x range greater than 0
 xl, yl = cntrl(a, -15, y0, dy0, 1500)    # x range less than 0
 
 x = np.append(xl[::-1], xg[1::])
@@ -60,12 +63,15 @@ ai, aip, bi, bip = airy(x)
 
 # approximating the Airy equation with the series solution
 
-print(y[-1])
+endTime = datetime.now()
+print("Execution time : ", endTime - startTime)
 
-plt.plot(x, ai, 'k', label='Ai(x)')
-plt.plot(x, y, 'b', label='y(x)', alpha=0.5)
-# plt.plot(x, bi, 'b--', label='Bi(x)')
-plt.ylim(-0.5, 1.0)
+plt.plot(x, ai, 'r', label='Ai(x)')
+plt.plot(x, y, 'b', label='y(x)')
+# plt.plot(x, bi, 'r', label='Bi(x)')
+plt.ylim(-0.5, 0.6)
+plt.xlabel("x")
+plt.title("Airy equation solution using central difference method")
 plt.grid()
 plt.legend(loc='upper left')
 plt.show()

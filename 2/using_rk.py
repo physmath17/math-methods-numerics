@@ -2,12 +2,16 @@ from runge_kutta_four import *
 import numpy as np
 from matplotlib import pyplot as plt
 from scipy.special import airy, gamma
+from datetime import datetime
 
+startTime = datetime.now()
+
+# parameters
 a = 0
 bl = -15
-bg = 15
+bg = 5
 Nl = 1500
-Ng = 500
+Ng = 5000
 xl = np.linspace(a, bl, Nl)
 xg = np.linspace(a, bg, Ng)
 hl = (bl - a)/Nl
@@ -27,7 +31,7 @@ def F(t, Y) :
 
 # solution in the range x < 0
 for i in range(1, len(xl)) :
-    Y = RK4(xl[i], hl, Y, F)
+    Y = RK4(xl[i-1], hl, Y, F)
     solnl = np.append(solnl, Y[0])
     dsolnl = np.append(dsolnl, Y[1])
 
@@ -35,16 +39,18 @@ for i in range(1, len(xl)) :
 Y = np.array([y0, t0])
 
 for i in range(1, len(xg)) :
-    Y = RK4(xg[i], hg, Y, F)
+    Y = RK4(xg[i-1], hg, Y, F)
     solng = np.append(solng, Y[0])
     dsolng = np.append(dsolng, Y[1])
 
 x = np.append(xl[::-1], xg[1::])
 soln = np.append(solnl[::-1], solng[1::])
-print(soln[-1])
+
 ai, aip, bi, bip = airy(x)
 plt.plot(x, ai, 'r', label='Ai(x)')
 plt.plot(x, soln, 'b', label='y(x)')
+plt.xlabel("x")
+plt.title("Airy equation solution using fourth order Runge-Kutta method")
 plt.grid()
 plt.legend()
 plt.show()

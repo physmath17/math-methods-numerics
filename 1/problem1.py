@@ -13,6 +13,9 @@ discrete derivatve : ddy = (y(x + dx) - y(x - dx))/2dx
 
 import numpy as np
 import matplotlib.pyplot as plt
+from datetime import datetime
+
+startTime = datetime.now()
 
 # parameters
 # N = int(input("Enter the number of steps : "))
@@ -64,6 +67,9 @@ for N in step :
 # actual solution
     u = np.linspace(a, b, 1000)
     sin = np.array([np.sin(u[i]) for i in range(len(u))])
+
+endTime = datetime.now()
+print("Execution time : ", endTime - startTime)
 
 plt.plot(u, sin, color='black')
 plt.title("Solution to y'' = -y, y(0)=0, y'(0)=1 using forward difference")
