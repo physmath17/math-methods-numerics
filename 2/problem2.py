@@ -80,7 +80,7 @@ def airy_first(x, y) :
         if abs(s - y) < 1e-4 :
             break
         n += 1
-    return s, n+1
+    return s, n
 
 def airy_second(x, y) :
     ''' returns the number of terms required in the print("%f\t%f" % airy_first(1, ai[3]), ai[3])
@@ -99,7 +99,7 @@ power series to approximate the Airy function of the first kind at x and and the
         if abs(s - y) < 1e-4 :
             break
         n += 1
-    return s, n+1
+    return s, n
 
 v = [-10000, -100, -10, -1, 0, 1, 10, 100, 10000]
 ai, aip, bi, bip = airy(v)
