@@ -6,7 +6,7 @@ from datetime import datetime
 
 startTime = datetime.now()
 
-v = np.linspace(-10, 15, 26)
+v = np.linspace(-15, 15, 31)
 ai, aip, bi, bip = airy(v)
 
 s = 0
@@ -30,18 +30,16 @@ def airy_first(x, y) :
     while True :
         # t = s
         if n%3 == 0 :
-            s += round(pow(3, -2/3)*pow(x, n)/(pow(3, 2*n/3)*fact(n/3)*gamma(n/3 + 2/3)),4) 
-            n += 1
+            s += pow(3, -2/3)*pow(x, n)/(pow(3, 2*n/3)*fact(n/3)*gamma(n/3 + 2/3))
         elif n%3 == 1 :
-            s += round(-pow(3, -4/3)*pow(x, n)/(pow(3, 2*(n-1)/3)*fact((n-1)/3)*gamma(n/3 + 1)),4)
-            n += 2
+            s += -pow(3, -4/3)*pow(x, n)/(pow(3, 2*(n-1)/3)*fact((n-1)/3)*gamma(n/3 + 1))
         # else:
         #     s += 0
         # print("% .4f\t\t% .4f\t%d" % (y, s, n))
         if abs(s - y) < 1e-4 :
             break
-    print("% d\t\t% d" % (x, n))
-    return s
+        n += 1
+    return n, s
 
 print("x\t\tn")
 # approx = np.array([airy_first(v[i], ai[i]) for i in range(len(v))])

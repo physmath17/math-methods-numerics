@@ -101,7 +101,7 @@ power series to approximate the Airy function of the first kind at x and and the
         n += 1
     return s, n
 
-v = [-10000, -100, -10, -1, 0, 1, 10, 20, 100, 10000]
+v = [-10000, -100, -10, -1, 0, 1, 10, 3, 100, 10000]
 ai, aip, bi, bip = airy(v)
 
 print("x\t Ai(x)\t\t approximation\t steps")
@@ -114,7 +114,7 @@ for i in range(2, 7) :
 # for i in range(3, len(v)-3) :
 #     approx, terms_reqd = airy_second(v[i], bi[i])
 #     print("% d\t% .5f\t% .5f\t %d" % (v[i], bi[i], approx, terms_reqd))
-print(airy_first(20, ai[-3]))
+print(airy_first(3, ai[-3]))
 
 endTime = datetime.now()
 print("\nExecution time : ", endTime - startTime)
