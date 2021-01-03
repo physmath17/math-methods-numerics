@@ -21,30 +21,32 @@ ht = 0.0025
 phi = lambda y : ((0 < y <= 0.5 and 2*y) or 2*(1 - y))
 
 # solving the equation
-def solver(xi, xf, dx, dt, s=1, D=1) :
+def solver(phi, xi, xf, dx, dt, s=1, D=1) :
     ''' D : diffusion constant, xi, xf : spatial boundary points, dx : spatial increment, dt : time increment, s = dt/(dx)^2
-    returns a 2D array as solution where the columns for a fixed rwo specify solutions at different times and the rows for a fixed column specify the solution at different spatial points '''
+    returns a 2D array as solution where the rows for a fixed column specify solutions at different times and the columns for a fixed row specify the solution at different spatial points '''
     if s != 1 :
-        dt = s*dx**2/D
+        dt = s*(dx**2)/D
+
+    s = D*dt/(dx**2)
 
     Nx = int((xf-xi)/dx)
     Nt = 1000
 
     x = np.linspace(xi, xf, Nx)
     t = np.array([i*dt for i in range(Nt)])
-    u = np.empty((Nx, Nt))
+    u = np.empty((Nt, Nx))
 
     # initial condition
-    # for t theer is one initial condition is specified by phi
+    # for t there is one initial condition is specified by phi
     for i in range(1, len(x)-1) :
         u[0][i] = phi(x[i])
     
     # for x we need to specify two initial conditions
-    u[:, :1] = 0
-    
+    u[:,0] = 0
+
     # difference equation - recurrence relation for the heat equation
-    for time in t :
-        for space in range(1, Nx, dx) :
+    for time in range(Nt-1) :
+        for space in range(1, Nx-1) :
             u[time][space] = s*(u[time-1][space+1] + u[time-1][space-1]) + (1 - 2*s)*u[time-1][space]
     return u
 
@@ -57,7 +59,8 @@ def solver(xi, xf, dx, dt, s=1, D=1) :
 
 #     return plt
 
-T = solver(a, b, hx, ht)
+T = solver(phi, a, b, hx, ht, s=0.51)
+print(T)
 
 # def animate(k) :
 #     heatmap(T[k], ht, k)
