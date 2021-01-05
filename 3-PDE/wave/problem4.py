@@ -59,7 +59,7 @@ def wave(x, v, dt, k) :
     plt.plot(x, v)
     return plt
 
-x, t, u, delta_t = wave_solver(phi, psi, a, L, Nx, Nt, 1.1)
+x, t, u, delta_t = wave_solver(phi, psi, a, L, Nx, Nt, 0.9)
 
 def animate(k) :
     return wave(x, u[k], delta_t, k)
