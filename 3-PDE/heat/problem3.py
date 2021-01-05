@@ -10,6 +10,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from matplotlib.animation import FuncAnimation
+from mpl_toolkits.mplot3d import Axes3D
 
 # parameters
 a = 0
@@ -33,6 +34,7 @@ def solver(phi, xi, xf, dx, dt=0.0025, s=1, D=1) :
     Nt = 301
 
     x = np.linspace(xi, xf, Nx)
+    t = np.array([i*dt for i in range(Nt)])
     u = np.empty((Nt, Nx))
 
     # initial condition
@@ -49,7 +51,7 @@ def solver(phi, xi, xf, dx, dt=0.0025, s=1, D=1) :
     for time in range(1, Nt) :
         for space in range(1, Nx-1) :
             u[time][space] = s*(u[time-1][space+1] + u[time-1][space-1]) + (1 - 2*s)*u[time-1][space]
-    return x, u, dt
+    return x, t, u, dt
 
 def heatmap(x, v, dt, k) :
     plt.clf()
@@ -59,11 +61,17 @@ def heatmap(x, v, dt, k) :
     plt.plot(x, v)
     return plt
 
-x, u, delta_t = solver(phi, a, b, hx, s=0.51)
+x, t, u, delta_t = solver(phi, a, b, hx, s=0.48)
 
 def animate(k) :
     return heatmap(x, u[k], delta_t, k)
 
-fig, ax = plt.subplots()
-anim = animation.FuncAnimation(fig, animate, interval=200, frames=300, repeat=False)
-anim.save("heat_equation_solution_s_0.51.gif", writer='imagemagick', fps=10)
+# fig, ax = plt.subplots()
+# anim = animation.FuncAnimation(fig, animate, interval=200, frames=300, repeat=False)
+# anim.save("heat_equation_solution_s_0.51.gif", writer='imagemagick', fps=10)
+
+fig = plt.figure() 
+ax = fig.add_subplot(111, projection='3d')
+space, time = np.meshgrid(x, t) 
+ax.plot_surface(space, time, u)
+plt.show()
