@@ -53,20 +53,19 @@ def wave_solver(phi, psi, xi, xf, Nx, Nt, s) :
 
 def wave(x, v, dt, k) :
     plt.clf()
-    plt.title(f"Temperature at t = {k*dt:.3f} unit time")
+    plt.title(f"Wave amplitude at t = {k*dt:.3f} unit time")
     plt.xlabel("x")
     plt.ylabel("u")
     plt.plot(x, v)
     return plt
 
-x, t, u, delta_t = wave_solver(phi, psi, a, L, Nx, Nt, 0.9)
-
+x, t, u, delta_t = wave_solver(phi, psi, a, L, Nx, Nt, 1.1)
 def animate(k) :
     return wave(x, u[k], delta_t, k)
 
 fig, ax = plt.subplots()
 anim = animation.FuncAnimation(fig, animate, interval=200, frames=200, repeat=False)
-anim.save("wave_equation_solution_s_0.9.gif", writer='imagemagick', fps=10)
+anim.save("wave_equation_solution_s_1.1.gif", writer='imagemagick', fps=10)
 
 # fig = plt.figure() 
 # ax = fig.add_subplot(111, projection='3d')
