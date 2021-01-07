@@ -61,7 +61,7 @@ def heatmap(x, v, dt, k) :
     plt.plot(x, v)
     return plt
 
-x, t, u, delta_t = heat_solver(phi, a, b, hx, s=0.48)
+x, t, u, delta_t = heat_solver(phi, a, b, hx, s=0.51)
 
 def animate(k) :
     return heatmap(x, u[k], delta_t, k)
@@ -74,4 +74,8 @@ fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
 space, time = np.meshgrid(x, t) 
 ax.plot_surface(space, time, u)
+ax.set_title((f"Temperature distribution in a rod\n"))
+ax.set_xlabel('x')
+ax.set_ylabel('t')
+ax.set_zlabel('temperature')
 plt.show()
