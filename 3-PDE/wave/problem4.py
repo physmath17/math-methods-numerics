@@ -25,7 +25,7 @@ psi = lambda y : 0
 # solving the equation
 def wave_solver(phi, psi, xi, xf, Nx, Nt, s) :
     ''' phi : specfies u(x, 0), psi : specifies u_t(x, 0), xi, xf : spatial boundary points, N : number of spatial intervals, s : square of ratio of time interval to spatial interval (can be used to define the time interval), c : speed of wave, by default set to ubnity
-    returns a 2D array as the solution to the waev equation where the rows for a fixed column specify solutions at different times and the columns for a fixed row specify the solution at different spatial points '''
+    returns a 2D array as the solution to the wave equation where the rows for a fixed column specify solutions at different times and the columns for a fixed row specify the solution at different spatial points '''
 
     dx = (xf - xi)/Nx
     dt = dx*s**0.5
@@ -59,16 +59,20 @@ def wave(x, v, dt, k) :
     plt.plot(x, v)
     return plt
 
-x, t, u, delta_t = wave_solver(phi, psi, a, L, Nx, Nt, 1.1)
+x, t, u, delta_t = wave_solver(phi, psi, a, L, Nx, Nt, 0.9)
 def animate(k) :
     return wave(x, u[k], delta_t, k)
 
-fig, ax = plt.subplots()
-anim = animation.FuncAnimation(fig, animate, interval=200, frames=200, repeat=False)
-anim.save("wave_equation_solution_s_1.1.gif", writer='imagemagick', fps=10)
+# fig, ax = plt.subplots()
+# anim = animation.FuncAnimation(fig, animate, interval=200, frames=200, repeat=False)
+# anim.save("wave_equation_solution_s_1.1.gif", writer='imagemagick', fps=10)
 
-# fig = plt.figure() 
-# ax = fig.add_subplot(111, projection='3d')
-# space, time = np.meshgrid(x, t) 
-# ax.plot_surface(space, time, u)
-# plt.show()
+fig = plt.figure() 
+ax = fig.add_subplot(111, projection='3d')
+space, time = np.meshgrid(x, t) 
+ax.plot_surface(space, time, u)
+ax.set_title((f"Wave solution at different positions and times\n"))
+ax.set_xlabel('x')
+ax.set_ylabel('t')
+ax.set_zlabel('amplitude')
+plt.show()
