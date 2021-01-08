@@ -22,11 +22,13 @@ ht = 0.0025
 phi = lambda y : 2*y*(y<0.5) + 2*(1-y)*(y>=0.5)
 
 # solving the equation
-def heat_solver(phi, xi, xf, dx, dt=0.0025, s=1, D=1) :
+def heat_solver(phi, xi, xf, dx=0.05, dt=0.0025, s=1, D=1) :
     ''' phi : specifies the boundary conditions, xi, xf : spatial boundary points, dx : spatial increment, dt : time increment, s = D*dt/(dx)^2, D : diffusion constant
     returns a 2D array as the solution to the heat equation where the rows for a fixed column specify solutions at different times and the columns for a fixed row specify the solution at different spatial points '''
-    if s != 1 :
+    if s != 1 and dx == 0.05 :
         dt = s*(dx**2)/D
+    elif s!= 1 and dt == 0.0025 :
+        dx = np.sqrt(D*dt/s)
     else :
         s = D*dt/(dx**2)
 
@@ -61,7 +63,7 @@ def heatmap(x, v, dt, k) :
     plt.plot(x, v)
     return plt
 
-x, t, u, delta_t = heat_solver(phi, a, b, hx, s=0.51)
+x, t, u, delta_t = heat_solver(phi, a, b, dt=ht, s=0.48)
 
 def animate(k) :
     return heatmap(x, u[k], delta_t, k)
