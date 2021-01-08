@@ -16,7 +16,7 @@ from mpl_toolkits.mplot3d import Axes3D
 L = 10
 hx = 0.05
 ht = 0.05
-v = 1
+v = 0.5
 
 # initial conditions specfied by
 phi = lambda y : 0*(y<0) + 0.5*(y==0) + 1*(y>0)
@@ -93,17 +93,17 @@ def field(x, f, k) :
 def animate(k) :
     return field(x, u[k], k)
 
-fig, ax = plt.subplots()
-anim = animation.FuncAnimation(fig, animate, interval=200, frames=200, repeat=False)
-anim.save("advection_equation_solution_step-function_v_1.gif", writer='imagemagick', fps=10)
+# fig, ax = plt.subplots()
+# anim = animation.FuncAnimation(fig, animate, interval=200, frames=200, repeat=False)
+# anim.save("advection_equation_solution_step-function_v_1.gif", writer='imagemagick', fps=10)
 
-# fig = plt.figure() 
-# ax = fig.add_subplot(111, projection='3d')
-# space, time = np.meshgrid(x, t)
-# # ax.plot3D(space, time, u[0], '-k')
-# ax.plot_surface(space, time, u)
-# ax.set_title(r"Field at different positions and times for $\Delta$t = {dt}, $\Delta$x = {dx},  v = {vel}".format(dt=ht, dx=hx, vel=v)+"\n")
-# ax.set_xlabel('x')
-# ax.set_ylabel('t')
-# ax.set_zlabel('field amplitude')
-# plt.show()
+fig = plt.figure() 
+ax = fig.add_subplot(111, projection='3d')
+space, time = np.meshgrid(x, t)
+# ax.plot3D(space, time, u[0], '-k')
+ax.plot_surface(space, time, u)
+ax.set_title(r"Field at different positions and times for $\Delta$t = {dt}, $\Delta$x = {dx},  v = {vel}".format(dt=ht, dx=hx, vel=v)+"\n")
+ax.set_xlabel('x')
+ax.set_ylabel('t')
+ax.set_zlabel('field amplitude')
+plt.show()
