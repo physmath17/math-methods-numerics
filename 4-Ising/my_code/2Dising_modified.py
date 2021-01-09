@@ -3,6 +3,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from random import uniform as ran , randint, choice
+from numba import jit
 
 # parameters
 L = int(input())
@@ -16,6 +17,8 @@ C = np.zeros(N+1, dtype=np.float64)   # stores specific heat
 chi = np.zeros(N+1, dtype=np.float64) # stores susceptibility
 MCsteps = 1000
 n1, n2 = 1/(MCsteps*vol), 1/(MCsteps**2 * vol)
+
+@jit(nopython=True)
 def nbhr(k) :
     ''' k : index value of 1D array, dirn : 0 or 1 for horizontal and vertical direction esectively 
     returns the nearest neighbours
@@ -35,39 +38,43 @@ S = np.array([choice([-1, 1]) for k in range(vol)])
 # cold start
 # S = np.ones(N)
 
+@jit(nopython=True)
 def Ising(S, beta, steps) : 
     for sweep in range(steps) : 
         for i in range(vol) :
             k = randint(0, vol-1)
-            h = sum(S[nbhr(k)[j]] for j in range(4))
+            h = S[nbhr(k)[0]] + S[nbhr(k)[1]] + S[nbhr(k)[2]] + S[nbhr(k)[3]]
             dE = 2*h*S[k]
             boltzmann = np.exp(-beta*dE)
             if ran(0., 1.) < boltzmann : S[k] = -S[k]
-    return S   
+    return S 
 
+@jit(nopython=True)
 def calcMag(config) :
     ''' returns magentization for config '''
     return np.sum(config)
 
+@jit(nopython=True)
 def calcEnergy(config) :
     ''' returns the energy for config '''
     H = 0
     for i in range(vol) :
-        H += config[i]*sum(config[nbhr(i)[j]] for j in range(4))
+        H += config[i]*(config[nbhr(i)[0]] + config[nbhr(i)[1]] + config[nbhr(i)[2]] + config[nbhr(i)[3]])
     return H
 
-file = open("data_L_{}.txt".format(L), "w")
+file = open("data_L_modified_{}.txt".format(L), "w")
 for t in range(len(betaJ)) :
     E1 = E2 = M1 = M2 = 0
 
-    Ising(S, betaJ[t], 500) # equilibrium steps chosen as 100
+    Ising(S, betaJ[t], 2000) # equilibrium steps chosen as 2000
 
     for i in range(MCsteps) : # count for calculating averages
-        Ising(S, betaJ[t], 1)
+        Ising(S, betaJ[t], 100)
         E1 += calcEnergy(S)
         E2 += calcEnergy(S)**2
         M1 += calcMag(S)
         M2 += calcMag(S)**2
+
 
     E[t] = n1*E1
     M[t] = n1*M1
@@ -106,4 +113,4 @@ plt.ylabel("Susceptibility", fontsize=15)
 plt.axis('tight')
 plt.grid(True)
 
-plt.savefig("L_{}".format(L))
+plt.savefig("L_modified_{}".format(L))
